@@ -1,0 +1,21 @@
+#!/bin/bash -l
+#PBS -N Stage2-seqtk
+#PBS -m abe
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=1:00:00
+
+# Change to folder where we launched the job
+cd $PBS_O_WORKDIR
+
+# Make a directory for the seqtk results
+mkdir trimmed
+
+# Use Singularity to supply trim the files
+singularity exec https://depot.galaxyproject.org/singularity/seqtk:1.4--he4a0461_1 bash -c \
+  'seqtk trimfq data/sample1_R1.fastq.gz | \
+  gzip --no-name > trimmed/sample1_R1.fastq.trimmed.gz'
+
+singularity exec https://depot.galaxyproject.org/singularity/seqtk:1.4--he4a0461_1 bash -c \
+  'seqtk trimfq data/sample1_R2.fastq.gz | \
+  gzip --no-name > trimmed/sample1_R2.fastq.trimmed.gz'
+

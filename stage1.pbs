@@ -1,0 +1,17 @@
+#!/bin/bash -l
+#PBS -N Stage1-FastQC
+#PBS -m abe
+#PBS -l select=1:ncpus=1:mem=4gb
+#PBS -l walltime=1:00:00
+
+# Change to folder where we launched the job
+cd $PBS_O_WORKDIR
+
+# Make a directory for the fastqc results
+mkdir fastqc
+
+# Load the fastqc module
+module load fastqc/0.11.7-java-1.8.0_92
+
+# Run fastqc
+fastqc --threads 2  --outdir fastqc data/sample1_R1.fastq.gz data/sample1_R2.fastq.gz

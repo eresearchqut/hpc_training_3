@@ -1,0 +1,17 @@
+#!/bin/bash -l
+#PBS -N Stage3-multiqc
+#PBS -m abe
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=1:00:00
+
+# Change to folder where we launched the job
+cd $PBS_O_WORKDIR
+
+# Make a directory for the seqtk results
+mkdir multiqc
+
+# Use Singularity to supply trim the files
+singularity exec https://depot.galaxyproject.org/singularity/multiqc:1.21--pyhdfd78af_0 \
+  multiqc --force --outdir multiqc data fastqc trimmed
+
+
